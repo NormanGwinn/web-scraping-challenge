@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="import" href="import.html">
+    <title>Mission to Mars</title>
+
+    <!-- CSS Media Query for Columnar NavBar -->
+    <style>
+      @media screen and (max-width: 600px) {
+        .stackit {   
+          flex-direction: column;
+        }
+      }
+    </style>
+    
+  </head>
+  <body>
+    <!---------------------------------------------------------------------
+      Start of Navigation Bar
+    ---------------------------------------------------------------------->
+
+    <div class="container-fluid">
+      <div class="row d-flex justify-content-center">
+        <h1>Mission to Mars</h1>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Scrape</button>
+      </div>
+      <div class="row">
+        <br/>
+        <br/>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Latest Mars News</h2>
+          <h4>{{news_title}}</h4>
+          <p>{{news_abstract}}</p>
+        </div>
+      </div>
+      <hr style="height:1px"/>
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Featured Mars Image</h2>
+          <img src="{{image_url}}"/>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <h2>Current Weather on Mars</h2>
+            <p>{{weather_conditions}}</p>
+            </div>
+          <h2>Mars Facts</h2>
+          <div>
+            {{facts_table_html|safe}}
+          </div>
+        </div>
+      </div>
+      <hr style="height:1px"/>
+      <div class="row d-flex justify-content-center">
+        <h2>Mars Hemispheres</h2>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5 card">
+          <img class="card-img-top" src="{{hemisphere0.img_url}}">
+          <div class="card-body">
+            <h5 class="card-title">{{hemisphere0.title}}</h5>
+          </div>
+        </div>
+        <div class="col-md-5 card">
+          <img class="card-img-top" src="{{hemisphere1.img_url}}">
+          <div class="card-body">
+            <h5 class="card-title">{{hemisphere1.title}}</h5>
+          </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-5 card">
+          <img class="card-img-top" src="{{hemisphere2.img_url}}">
+          <div class="card-body">
+            <h5 class="card-title">{{hemisphere2.title}}</h5>
+          </div>
+        </div>
+        <div class="col-md-5 card">
+          <img class="card-img-top" src="{{hemisphere3.img_url}}">
+          <div class="card-body">
+            <h5 class="card-title">{{hemisphere3.title}}</h5>
+          </div>
+        </div>
+        <div class="col-md-1">
+        </div>
+      </div>
+    </div>
+
+    <!---------------------------------------------------------------------
+      Start of Unique Page Content
+      weather_conditions = d['Weather']['conditions'],
+        facts_table_html = d['Facts']['table_html'],
+        hemisphere0 = d['Hemispheres']['title_and_image_list'][0],
+        hemisphere1 = d['Hemispheres']['title_and_image_list'][1],
+        hemisphere2 = d['Hemispheres']['title_and_image_list'][2],
+        hemisphere3
+    ---------------------------------------------------------------------->
+    <!--
+
+    <h1>Comparison:  What Weather Does With Latitude</h1>
+
+    <p>Click on any plot to see more detail.</p>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+          <h2>Temperature</h2>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+          <h2>Humidity</h2>
+        </div>
+      </div>      
+      <div class="row">
+        <div class="col-md-6 d-flex justify-content-center">
+          <a href="vis_temperature.html">
+            <img src="Resources/Temperature.png"/>
+          </a>
+        </div>
+        <div class="col-md-6 d-flex justify-content-center">
+          <a href="vis_humidity.html">
+            <img src="Resources/Humidity.png"/>
+          </a>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+  </body>
+</html>
