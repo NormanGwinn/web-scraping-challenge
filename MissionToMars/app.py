@@ -21,15 +21,6 @@ def show_index():
 
     d = mars_info.retrieve()
 
-    # for instructor 01 - process Python value
-    #web_text = "You can use any variable"
-    # for instructor 03 - process Python lists
-   # team_list = ["Jumpers", "Dunkers", "Dribblers", "Passers"]
-    # for instructor 05 - process Python dictionary
-    #player_dictionary = {"player_1": "Jessica",
-    #                    "player_2": "Mark"}
-    # bonus - dict list with conditional templating
-            
     return render_template(
         "index.html",
         news_title = d['News']['title'],
@@ -42,6 +33,12 @@ def show_index():
         hemisphere2 = d['Hemispheres']['title_and_image_list'][2],
         hemisphere3 = d['Hemispheres']['title_and_image_list'][3]
     )
+
+# create route that renders index.html template
+@app.route("/scrape")
+def update():
+    mars_info.update()
+    return show_index()
 
 if __name__ == '__main__':
     app.run(debug=True)

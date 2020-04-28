@@ -39,11 +39,13 @@ class MarsInfo:
             nasa_abstract = first_article.find('div', class_ = 'article_teaser_body').text.strip()
 
         except Exception as ex:
-            raise ex
+            print('Failed to update News.','\n',ex)
+            #raise ex
 
         else:
-            result = self.mars_db.News.drop()
-            result = self.mars_db.News.insert_one({'title':nasa_title,'abstract':nasa_abstract})
+            self.mars_db.News.drop()
+            self.mars_db.News.insert_one({'title':nasa_title,'abstract':nasa_abstract})
+            print('Successfully updated News')
 
     def update_image(self):
         # Retrieve Featured Mars Image from JPL
@@ -55,11 +57,13 @@ class MarsInfo:
             featured_image_url = 'https://www.jpl.nasa.gov' + soup.find('figure').find('a')['href']
 
         except Exception as ex:
-            raise ex
+            print('Failed to update Image.','\n',ex)
+            #raise ex
 
         else:
-            result = self.mars_db.Image.drop()
-            result = self.mars_db.Image.insert_one({'url':featured_image_url})
+            self.mars_db.Image.drop()
+            self.mars_db.Image.insert_one({'url':featured_image_url})
+            print('Successfully updated Image')
 
     def update_weather(self):
         # Retrieve Mars Weather
@@ -68,11 +72,13 @@ class MarsInfo:
             mars_weather=soup.find('p', class_='TweetTextSize').text.strip()
 
         except Exception as ex:
-            raise ex
+            print('Failed to update Weather.','\n',ex)
+            #raise ex
 
         else:
-            result = self.mars_db.Weather.drop()
-            result = self.mars_db.Weather.insert_one({'conditions':mars_weather})
+            self.mars_db.Weather.drop()
+            self.mars_db.Weather.insert_one({'conditions':mars_weather})
+            print('Successfully updated Weather')
 
     def update_facts(self):
         # Retrieve Mars Facts
@@ -80,22 +86,23 @@ class MarsInfo:
             dfs = pd.read_html(self._URL_MARS_FACTS)
             df_mars_facts = dfs[0]
             df_mars_facts.columns = ['Attribute','Value']
-            table_html = df_mars_facts.to_html()
+            table_html = df_mars_facts.to_html(index=False, justify='center', classes=['table','table-sm','table-striped'])
 
         except Exception as ex:
-            raise ex
+            print('Failed to update Facts.','\n',ex)
+            #raise ex
 
         else:
-            result = self.mars_db.Facts.drop()
-            result = self.mars_db.Facts.insert_one({'conditions':table_html})
+            self.mars_db.Facts.drop()
+            self.mars_db.Facts.insert_one({'table_html':table_html})
+            print('Successfully updated Facts')
 
     def update_hemispheres(self):
         # Retrieve Images for the Mars Hemispheres
         try:
-            self.browser.visit(_URL_MARS_HEMISPHERE_IMAGES)
+            self.browser.visit(self._URL_MARS_HEMISPHERE_IMAGES)
             soup = bs(self.browser.html, 'html.parser')
             hemisphere_image_urls = list()
-            divs = soup.find_all('div', class_='description')
             for div in soup.find_all('div', class_='description'):
                 key_word = div.find('h3').text
                 self.browser.links.find_by_partial_text(key_word).click()
@@ -103,14 +110,16 @@ class MarsInfo:
                 downloads = soup2.find('div', class_='downloads')
                 img_url = downloads.find('a')['href']
                 hemisphere_image_urls.append({'title':key_word.replace(' Enhanced',''),'img_url':img_url})
-                browser.back()
+                self.browser.back()
 
         except Exception as ex:
-            raise ex
+            print('Failed to update Hemispheres.','\n',ex)
+            #raise ex
 
         else:
-            result = self.mars_db.Hemispheres.drop()
-            result = self.mars_db.Hemispheres.insert_one({'title_and_image_list':hemisphere_image_urls})
+            self.mars_db.Hemispheres.drop()
+            self.mars_db.Hemispheres.insert_one({'title_and_image_list':hemisphere_image_urls})
+            print('Successfully updated Hemispheres.')
 
     def update(self):
         # Initialize a headless browser
@@ -125,6 +134,7 @@ class MarsInfo:
         self.update_image()
         self.update_weather()
         self.update_facts()
-        self.update_hemispheres()
+        # Skip this slow update of the four hemisphere images; these images don't change
+        # self.update_hemispheres()
 
 
